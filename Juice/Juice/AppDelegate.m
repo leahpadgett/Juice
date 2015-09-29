@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,29 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // [Optional] Power your app with Local Datastore. For more info, go to
+    // https://parse.com/docs/ios_guide#localdatastore/iOS
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"awoluy6ZugIMH7NtCCF5OyxFCn6laUTQMEaFbn5R"
+                  clientKey:@"CutDBQZbBviJDAgPBam1rsmkkpN6DJwHQIl4n3cW"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    
+    // Testing the SDK
+    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
+    testObject[@"foo"] = @"bar";
+    [testObject saveInBackground];
+
+    PFObject *supermarket = [PFObject objectWithClassName:@"Supermarket"];
+    [supermarket setObject:@"apple" forKey:@"fruititem1"];
+    supermarket [@"fruitItem2"] = @"orange";
+    [supermarket saveInBackground];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
