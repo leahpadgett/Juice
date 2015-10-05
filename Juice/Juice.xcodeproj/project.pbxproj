@@ -33,6 +33,7 @@
 		225F5B911BBB57BD0080ED0D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B871BBB57BD0080ED0D /* StoreKit.framework */; };
 		225F5B921BBB57BD0080ED0D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B881BBB57BD0080ED0D /* SystemConfiguration.framework */; };
 		225F5B941BBB58100080ED0D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B931BBB58100080ED0D /* libsqlite3.tbd */; };
+		22D6D5101BC33C2B00FE9267 /* ParseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		225F5B871BBB57BD0080ED0D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		225F5B881BBB57BD0080ED0D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		225F5B931BBB58100080ED0D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		22D6D50E1BC33C2B00FE9267 /* ParseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseTableViewController.h; sourceTree = "<group>"; };
+		22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				225F5B401BBB4D4A0080ED0D /* AppDelegate.h */,
+				22D6D50E1BC33C2B00FE9267 /* ParseTableViewController.h */,
+				22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */,
 				225F5B411BBB4D4A0080ED0D /* AppDelegate.m */,
 				225F5B431BBB4D4A0080ED0D /* ViewController.h */,
 				225F5B441BBB4D4A0080ED0D /* ViewController.m */,
@@ -353,6 +358,7 @@
 				225F5B451BBB4D4A0080ED0D /* ViewController.m in Sources */,
 				225F5B421BBB4D4A0080ED0D /* AppDelegate.m in Sources */,
 				225F5B3F1BBB4D4A0080ED0D /* main.m in Sources */,
+				22D6D5101BC33C2B00FE9267 /* ParseTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
