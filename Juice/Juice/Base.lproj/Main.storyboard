@@ -71,10 +71,10 @@
             </objects>
             <point key="canvasLocation" x="1596" y="1016"/>
         </scene>
-        <!--Parse Table View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="VsY-6C-YoI">
             <objects>
-                <tableViewController id="pFG-af-axJ" customClass="ParseTableViewController" sceneMemberID="viewController">
+                <tableViewController id="pFG-af-axJ" customClass="HomeViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OIA-IE-Ryh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
