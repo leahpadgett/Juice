@@ -42,7 +42,15 @@
     [supermarket saveInBackground];
     
     [self.window makeKeyAndVisible];
+    
+    [self presentingLoginControllerAnimated:NO];
     return YES;
+}
+
+- (void)presentingLoginControllerAnimated:(BOOL)animated{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
+    [self.window.rootViewController presentViewController:loginNavigationController animated:animated completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -33,6 +33,8 @@
 		225F5B911BBB57BD0080ED0D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B871BBB57BD0080ED0D /* StoreKit.framework */; };
 		225F5B921BBB57BD0080ED0D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B881BBB57BD0080ED0D /* SystemConfiguration.framework */; };
 		225F5B941BBB58100080ED0D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 225F5B931BBB58100080ED0D /* libsqlite3.tbd */; };
+		226F629A1BD5B27600ECD730 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226F62991BD5B27600ECD730 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		226F629D1BD5B29600ECD730 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226F629C1BD5B29600ECD730 /* SignUpViewController.m */; settings = {ASSET_TAGS = (); }; };
 		22D6D5101BC33C2B00FE9267 /* ParseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		22D6D5181BC344B700FE9267 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22D6D5171BC344B700FE9267 /* UIKit.framework */; };
 		22D6D51B1BC345A800FE9267 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D6D51A1BC345A800FE9267 /* HomeViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -90,6 +92,10 @@
 		225F5B871BBB57BD0080ED0D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		225F5B881BBB57BD0080ED0D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		225F5B931BBB58100080ED0D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		226F62981BD5B27600ECD730 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		226F62991BD5B27600ECD730 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		226F629B1BD5B29600ECD730 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		226F629C1BD5B29600ECD730 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		22D6D50E1BC33C2B00FE9267 /* ParseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseTableViewController.h; sourceTree = "<group>"; };
 		22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseTableViewController.m; sourceTree = "<group>"; };
 		22D6D5171BC344B700FE9267 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -169,6 +175,10 @@
 				225F5B411BBB4D4A0080ED0D /* AppDelegate.m */,
 				22D6D50E1BC33C2B00FE9267 /* ParseTableViewController.h */,
 				22D6D50F1BC33C2B00FE9267 /* ParseTableViewController.m */,
+				226F62981BD5B27600ECD730 /* LoginViewController.h */,
+				226F62991BD5B27600ECD730 /* LoginViewController.m */,
+				226F629B1BD5B29600ECD730 /* SignUpViewController.h */,
+				226F629C1BD5B29600ECD730 /* SignUpViewController.m */,
 				22D6D5191BC345A800FE9267 /* HomeViewController.h */,
 				22D6D51A1BC345A800FE9267 /* HomeViewController.m */,
 				225F5B431BBB4D4A0080ED0D /* ViewController.h */,
@@ -366,8 +376,10 @@
 			files = (
 				225F5B451BBB4D4A0080ED0D /* ViewController.m in Sources */,
 				225F5B421BBB4D4A0080ED0D /* AppDelegate.m in Sources */,
+				226F629A1BD5B27600ECD730 /* LoginViewController.m in Sources */,
 				225F5B3F1BBB4D4A0080ED0D /* main.m in Sources */,
 				22D6D51B1BC345A800FE9267 /* HomeViewController.m in Sources */,
+				226F629D1BD5B29600ECD730 /* SignUpViewController.m in Sources */,
 				22D6D5101BC33C2B00FE9267 /* ParseTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
