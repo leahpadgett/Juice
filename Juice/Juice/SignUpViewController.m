@@ -7,6 +7,7 @@
 //
 
 #import "SignUpViewController.h"
+#import <Parse/Parse.h>
 
 @interface SignUpViewController ()
 
@@ -31,6 +32,45 @@
 
 
 - (IBAction)signup:(id)sender {
+    NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (username.length != 0 && password.length != 0){
+        PFUser *user = [PFUser user];
+        user.username = username;
+        user.password = password;
+      
+        
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (!error) {   // Hooray! Let them use the app now.
+                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                // Show the errorString somewhere and let the user try again.
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                               message:@"Error signing up"
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action) {}];
+                
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+
+            }
+        }];
+    }
+    else {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Username or Password field is empty"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }
 }
 
 /*

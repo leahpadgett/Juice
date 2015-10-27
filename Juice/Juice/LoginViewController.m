@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import <Parse/Parse.h>
 
 @interface LoginViewController ()
 
@@ -34,6 +35,41 @@
 
 
 - (IBAction)login:(id)sender {
+    NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (username.length != 0 && password.length != 0){
+        [PFUser logInWithUsernameInBackground:username password:password
+                                        block:^(PFUser *user, NSError *error) {
+                                            if (user) {
+                                                // Do stuff after successful login.
+                                                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                            } else {
+                                                // The login failed. Check error to see why.
+                                                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                                               message:@"Login failed, please try again"
+                                                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                                                
+                                                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                                                      handler:^(UIAlertAction * action) {}];
+                                                
+                                                [alert addAction:defaultAction];
+                                                [self presentViewController:alert animated:YES completion:nil];
+                                            }
+                                        }];
+    }
+    else {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                       message:@"Username or Password field is empty"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }
 }
 
 /*

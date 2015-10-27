@@ -43,7 +43,9 @@
     
     [self.window makeKeyAndVisible];
     
+    if (![PFUser currentUser]) {
     [self presentingLoginControllerAnimated:NO];
+    }
     return YES;
 }
 
