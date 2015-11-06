@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+
 
 @interface AppDelegate ()
 
@@ -17,11 +20,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
-    // [Optional] Power your app with Local Datastore. For more info, go to
-    // https://parse.com/docs/ios_guide#localdatastore/iOS
-    [Parse enableLocalDatastore];
+   
+    // Connect FB
+    //[[FBSDKApplicationDelegate sharedInstance] application:application
+                             //didFinishLaunchingWithOptions:launchOptions];
+  
     
     // Initialize Parse.
     [Parse setApplicationId:@"awoluy6ZugIMH7NtCCF5OyxFCn6laUTQMEaFbn5R"
@@ -30,6 +33,7 @@
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+   
     
     // Testing the SDK
     PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
@@ -40,19 +44,27 @@
     [supermarket setObject:@"apple" forKey:@"fruititem1"];
     supermarket [@"fruitItem2"] = @"orange";
     [supermarket saveInBackground];
-    
     [self.window makeKeyAndVisible];
     
-    if (![PFUser currentUser]) {
+    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+
+    
+    if (![PFUser currentUser] && ![PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
     [self presentingLoginControllerAnimated:NO];
     }
     return YES;
 }
 
+
 - (void)presentingLoginControllerAnimated:(BOOL)animated{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
-    [self.window.rootViewController presentViewController:loginNavigationController animated:animated completion:nil];
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //UINavigationController *loginNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"loginNav"];
+    //[self.window.rootViewController presentViewController:loginNavigationController animated:animated completion:nil];
+    ParseLoginViewController *loginViewController = [[ParseLoginViewController alloc] init];
+    loginViewController.delegate = self;
+    [loginViewController setFields:PFLogInFieldsFacebook];
+    loginViewController.facebookPermissions = @[ @"user_about_me"];
+    [self.window.rootViewController presentViewController:loginViewController animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -69,12 +81,116 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [FBSDKAppEvents activateApp];
+    
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        // handle response
+        if (!error) {
+            // handle result
+            [self facebookRequestDidLoad:result];
+        }
+        else {
+            [self showErrorAndLogout];
+        }
+    }];
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+    // show error and log out
+    [self showErrorAndLogout];
+}
+
+- (void)showErrorAndLogout {
+    UIAlertController* alertView = [UIAlertController alertControllerWithTitle:@"Login failed"
+                                                                   message:@"Please try again"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alertView addAction:defaultAction];
+
+    //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login failed" message:@"Please try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+ 
+    [PFUser logOut];
+}
+
+- (void)facebookRequestDidLoad:(id)result {
+    PFUser *user = [PFUser currentUser];
+    if (user) {
+        // update current user with facebook name and id
+        NSString *facebookName = result[@"name"];
+        user.username = facebookName;
+        NSString *facebookId = result[@"id"];
+        user[@"facebookId"]=facebookId;
+        
+        // download user profile picture from facebook
+        NSURL *profilePictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square",facebookId]];
+        NSURLRequest *profilePictureURLRequest = [NSURLRequest requestWithURL:profilePictureURL];
+        [NSURLConnection connectionWithRequest:profilePictureURLRequest delegate:self];
+ 
+    }
+}
+
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self showErrorAndLogout];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    _profilePictureData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.profilePictureData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    if (self.profilePictureData.length == 0 || !self.profilePictureData) {
+        [self showErrorAndLogout];
+    }
+    else {
+        PFFile *profilePictureFile = [PFFile fileWithData:self.profilePictureData];
+        [profilePictureFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+            if (!succeeded) {
+                [self showErrorAndLogout];
+            }
+            else {
+                PFUser *user = [PFUser currentUser];
+                user[@"profilePicture"] = profilePictureFile;
+                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (!succeeded) {
+                        [self showErrorAndLogout];
+                    }
+                    else {
+                        [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+
 
 @end
